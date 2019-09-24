@@ -5,7 +5,6 @@ import Homepage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shoppage/shoppage.component";
 import SingInAndSignOut from "./pages/signIn-and-signOut/signIn-and-signOut.component";
 
-
 function App() {
   return (
     <div className="App">
