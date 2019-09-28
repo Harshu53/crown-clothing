@@ -21,7 +21,6 @@ class App extends React.Component {
     // It is opening the susbscription, which identify any change on firebase, SO we are here getting the loggedIn user.
     this.unsuscribeFromAuth = auth.onAuthStateChanged(user => {
       this.setState({ currentUser: user });
-      console.log(user);
     });
   }
 
