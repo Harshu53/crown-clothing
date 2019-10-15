@@ -12,6 +12,32 @@ const config = {
   appId: "1:374185098126:web:db500dd1481b1e99db02df"
 };
 
+export const createUserProfile = async (authUser, additionalData) => {
+  if (!authUser) return;
+
+  const userRef = firestore.doc(`users/${authUser.uid}`); // Pull the data from logged in User's Id
+  const snapShot = userRef.get(); // From the user reference object call the .get method whihc will return the snapshot and let us know that the use is exists or not.
+
+  // Check if user is not exists into the systme then create the entry of it.
+  if (!snapShot.exists) {
+    const { displayName, email } = authUser;
+    const createAt = new Date();
+
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createAt,
+        ...additionalData
+      });
+    } catch (error) {
+      console.log("There is error: ", error.message);
+    }
+  }
+
+  return userRef;
+};
+
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();
@@ -20,6 +46,5 @@ export const firestore = firebase.firestore();
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
 
-console.log(auth.signInWithPopup(provider));
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
 export default firebase;
